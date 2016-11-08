@@ -1,0 +1,95 @@
+\section{Using the U-D Factorization}
+
+Bierman presents a significant improvement over Potter
+by factoring the covariance matrix $P = U D U^t$
+where $U$ is a unit upper triangular matrix and $D$
+is a diagonal matrix.
+This method has benefits similar to Potter's formulation but increases
+efficiency by working with triangular matrices
+and reducing the number of scalar ``square root'' operations.
+
+See \verb|udut_fact_c.c|, \verb|udut_fact_f.f|,
+and \verb|udut_fact.m|
+for $P = U D U^t$ factorization.
+
+This algorithm operates on one scalar observation at a time, which
+requires a diagonal $R$ matrix. If $R$ is not diagonal,
+and it is not immediately obvious how to shift the observation model
+so that the $R$ matrix becomes diagonal,
+then the implementaion can fall back to using
+the normalized ${\bar H}$ matrix and ${\bar z}$ vectors
+to eliminate the $R$ matrix entirely, as discussed earlier
+
+Depending on the system involved,
+it may be beneficial to factor $R = S_r R_d S_r^t$
+and do a ``partial'' normalization of $z$ and $H$
+using this $S_r$ but carrying $R_d$ into
+the Data Processing part of the algorithm.
+
+\subsection{Refinement}
+
+Data processing with the $UDU^t$ factorization can be constructed
+around an Agee-Turner factorization update,
+${\hat U} {\hat D} {\hat U^t} = {\tilde U}{\tilde D}{\tilde U^t} + caa^t$
+for scalar $c$ and column vector $a$.
+Unfortunately, while each step of Bierman's math makes sense,
+I am insufficiently able to wrap my head around the whole process
+to be able to explain it.
+
+(TODO: improve the discussion of this algorithm, and
+try to construct a useful set of equations!)
+
+See \verb|udut_data_c.c| and \verb|udut_data_f.f| for implementations.
+
+\subsection{Prediction}
+
+Given a filter state estimating a system state at a specific time, the
+filter state can be updated to estimate the system state after an
+additional step by making use of a Modified Weighted Gram-Schmidt
+Orthogonalization, as follows:
+\begin{subequations}
+\begin{align}
+  {\tilde x} & = F {\hat x}
+\label{udutx}
+\\
+  {\tilde P} & = F {\hat P} F^t + S_q Q_d S_q^t
+\label{udutp}
+\\
+ {\tilde U} {\tilde D} {\tilde U}^t
+ & =
+  F ( {\hat U} {\hat D} {\hat U}^t ) F^t + S_q Q_d S_q^t
+\nonumber
+\\
+ & =
+  ( F {\hat U} ) {\hat D}
+  ( F {\hat U} ) ^t
+  + S_q Q_d S_q^t
+\nonumber
+\\
+ & =
+ \begin{bmatrix} F {\hat U} & S_q \end{bmatrix}
+ \begin{bmatrix} {\hat D} & 0 \\ 0 & Q_d \end{bmatrix}
+ \begin{bmatrix} F {\hat U} & S_q \end{bmatrix}^T
+\label{udutmat}
+\end{align}
+\end{subequations}
+Starting with equation (\ref{sysxnorm})
+describing the evolution of the state
+across one transition,
+we can write out directly the update
+equation for the covariance of the
+error estimate, in equation (\ref{udutp}).
+Replacing $P$ by $UDU^t$ as appropriate,
+we can reorganize the equation as in (\ref{udutmat})
+which matches the form for the input to the
+Modified Weighted Gram-Schmidt Orthogonalization
+and Matrix Factorization code.
+Applying algorithm (\ref{mwgso_mf})
+to the right hand side of (\ref{udutmat})
+where $W_j$ are the rows of $ \begin{bmatrix} F {\hat U} & S_q \end{bmatrix}$
+and $D$ is the concatination of the diagonals of ${\hat D}$ and $Q_d$
+gives us back our desired ${\tilde U}$ matrix
+and ${\tilde D}$ vector.
+
+See \verb|udut_time_c.c| and \verb|udut_time_f.f|
+for implementations.

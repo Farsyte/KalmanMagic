@@ -1,0 +1,126 @@
+\section{Householder Triangularization}
+
+Several of the algorithms discussed in this document
+require the partial triangularization of a matrix,
+using orthogonal transformations;
+they need the transformed matrix as a result
+but do not need the transformation itself.
+
+The method of choice to achieve this
+is to apply Householder transformations
+to the vectors appearing in the columns of the matrix,
+selecting the transformation direction to
+clear out data below the diagonal
+in successive columns.
+
+A typical partial triangularization might be
+represented as follows:
+\begin{equation}
+T
+\begin{bmatrix}
+    A_{11} & A_{12}
+\\  A_{21} & A_{22}
+\end{bmatrix}
+=
+\begin{bmatrix}
+    U_{11} & B_{12}
+\\  0      & B_{22}
+\end{bmatrix}
+\label{householdertrim}
+\end{equation}
+where the resulting $U_{11}$ matrix
+is upper triangular.
+
+\subsection{Householder Vector Transformation}
+
+The core of the algorithm is the Householder transform,
+which generates the ``mirror image'' of an input vector $v$
+in the ``plane'' perpendicular to parameter vector $u$,
+calculated by measuring the extent of $v$
+in the direction of $u$
+and reversing it:
+\begin{equation}
+  v_u = v - 2 \left(\frac{v \cdot u}{u \cdot u}\right) u
+\label{householderv}
+\end{equation}
+
+The transformation has many interesting properties,
+but the most important property for us here now is
+that it is an orthogonal transformation, so applying
+any number of Householder transforms to all of the
+column vectors in a matrix is still an orthogonal
+transformation of the matrix.
+
+The second interesting property is that the transformation
+leaves unchanged any component in the original vector $v$
+for which the corresponding component in the $u$ vector
+is zero.
+
+\subsection{Matrix Triangularization}
+
+The partial triangularization will work across the matrix
+column by column,
+starting with the left column,
+and continuing until the appropriate number of columns
+have been triangularized.
+
+Consider the vector present in the first column
+of the input matrix.
+We want to form the Householder transform
+that will map this vector onto a new vector,
+where all the components that fall below the diagonal
+are zero.
+Since this is an orthogonal transformation,
+the sum of the squares of the diagonal element
+and all elements below it must remain constant;
+this condition is met by only two results,
+which differ only in the sign of the element
+that falls onto the diagonal of the matrix.
+
+This gives us, for our input vector $v$,
+two choices for the $v_u$ vector, and
+some freedom in selecting the $u$ vector.
+The simplest approach is to use
+$u = v - v_u$
+and to select (for numerical analysis reasons)
+the sign of the new diagonal element
+that avoids subtracting two large but
+potentially nearly equal values.
+
+Applying $T_u$ to the first column gives us
+the desired result, with our selected value
+on the diagonal to maintain the magnitude
+of the vector, and zeros below it; we
+then apply $T_u$ to the other columns.
+
+We now focus on the next column, and
+apply the same procedure,
+paying careful attention to the wording above
+relative to the elements of the vector
+residing on, or below, the diagonal.
+As the elements of $u$ that are ``above''
+the diagonal are zero,
+the transform $T_u$ will not modify
+any data in the matrix above the diagonal
+element under consideration;
+and the data to the left of the current column
+is also not modified by the transform
+as already filled with zeros.
+
+See \verb|hh_tri_c.c|, \verb|hh_tri_f.f| and \verb|hh_tri.m|
+for implementations
+of the Householder Partial Triangularization.
+
+See \verb|hh_tri_quad.m| and \verb|hh_tri_quad_f.f|
+for Matlab and Fortran mechanizations of
+Householder Triangularization
+where the matrix to be triangularized
+is the concatination of four matrices
+arranged in two rows of two matrices each.
+
+See \verb|hh_tri_hex.m| and \verb|hh_tri_hex_f.f|
+for Matlab and Fortran mechanizations of
+Householder Triangularization
+where the matrix to be triangularized
+is the concatination of six matrices
+arranged in two rows of three matrices each.

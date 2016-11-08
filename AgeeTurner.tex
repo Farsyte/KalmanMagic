@@ -1,0 +1,58 @@
+\section{Agee-Turner PD Factorzation Update}
+
+This procedure is used to update a positive definite matrix
+when it is being incremented by another matrix of a
+very specific form, as follows:
+\begin{align}
+  {\bar U} {\bar D} {\bar U}^t
+  & = U D U^t + c a a^t
+\label{udutcaat}
+\end{align}
+where
+$U$ and ${\bar U}$ are unit upper triangular,
+$D$ and ${\bar D}$ are diagonal,
+$c$ is a positive scalar,
+and $a$ is a vector;
+the purpose of the update is to calculate
+${\bar U}$ and ${\bar D}$
+when given $U$, $D$, $c$ and $a$.
+The algorithm to accomplish this is as follows:
+\begin{subequations}
+\begin{align}
+  {\bar D}_j & = D_j + c a_j^2
+\label{udutcaatdj}
+\\
+  a_k & = a_k - a_j U_{kj}
+\label{udutcaatak}
+\\
+  {\bar U}_{kj} & = U_{kj} + c a_j a_k / {\bar D}_j
+\label{udutcaatu}
+\\
+  c & = c d_j / {\bar D}_j
+\label{udutcaatc}
+\\
+  {\bar D}_1 & = D_1 + c a_1^2
+\label{udutcaatd1}
+\end{align}
+\end{subequations}
+Equations
+(\ref{udutcaatdj}),
+(\ref{udutcaatak}),
+(\ref{udutcaatu}) and
+(\ref{udutcaatc})
+are executed in sequence
+for each value of $j = n \dots 2$;
+within this loop,
+equations
+(\ref{udutcaatak}) and
+(\ref{udutcaatu})
+are executed for values of $k = 1 \dots j-1$.
+Note that equation
+(\ref{udutcaatc})
+modifies the value of $c$.
+Finally,
+(\ref{udutcaatd1})
+is executed to complete the result.
+
+See \verb|udut_caat.m|
+for a Matlab implementation.

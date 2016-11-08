@@ -1,0 +1,60 @@
+\documentclass{article}
+\usepackage{amsmath}
+\numberwithin{equation}{section}
+
+%% \parindent needs to be zero
+%% \parskip may need to be increased.
+
+\title{Kalman Filters\\and related magic}
+\author{Greg Limes\\greglimes@gmail.com}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent
+At work,
+we decided to use a Kalman filter
+as our tool of choice
+to estimate the states of
+two testbed vehicles
+based on prior estimates,
+the known behavior of the systems,
+and incoming noisy sensor observations.
+The initial implementation
+using the AutoBayes package
+made use of a ``Bierman Update''
+to process the sensor data,
+which led me to a deeper study
+of the Kalman filter and related methods.
+This document attempts to capture
+in distilled form
+the highlights of what I have learned.
+\end{abstract}
+
+\newpage
+\tableofcontents
+\newpage
+\input Conventions
+\newpage
+\input System
+\newpage
+\input Kalman
+\newpage
+\input Information
+\newpage
+\input Potter
+\newpage
+\input UDUt
+\newpage
+\input SRIF
+\newpage
+\appendix
+\input AgeeTurner
+\newpage
+\input GramSchmidt
+\newpage
+\input Householder
+
+\end{document}

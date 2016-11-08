@@ -1,0 +1,78 @@
+\section{Information Filter Basics}
+
+Information filters turn the Kalman filter's system state
+representation on its head by storing an information matrix $I_m$
+which is the inverse of the $P$ matrix, and storing a vector $I_v$
+which is the product of $I_m$ and the estimated state $x$.
+When $I_m$ is invertable,
+an estimate ${\tilde x}$ of the system state
+and an estimate ${\tilde P}$ of the covaraince of the error
+can be generated:
+\begin{subequations}
+\label{inforead}
+\begin{align}
+  {\tilde x} & = I_m^{-1} I_v
+  & \mbox{\it (estimated State)}
+\label{inforeadx}
+\\
+ {\tilde P} & = I_m^{-1}
+  & \mbox{\it (covariance of estimated Error)}
+\label{inforeadp}
+\end{align}
+\end{subequations}
+See \verb|info_read.m|
+to generate ${\tilde x}$ and ${\tilde P}$
+from the filter state.
+
+\subsection{Refinement}
+Given an Information filter state
+representing an estimate of the state of the system,
+and an observation vector containing additional information
+about the system,
+a refined estimate of the state of the system
+can be generated using the following equations:
+\begin{subequations}
+\label{infodata}
+\begin{align}
+  {\hat I_v} & = {\tilde I_v} + H^t R^{-1} z
+  & \mbox{\it (improved State estimate)}
+\label{infodatad}
+\\
+  {\hat I_m} & = {\tilde I_m} + H^t R^{-1} H
+  & \mbox{\it (improved Error estimate)}
+\label{infodatal}
+\end{align}
+\end{subequations}
+See \verb|info_data.m|
+for a Matlab implementation.
+
+\subsection{Prediction}
+Given an Information filter state
+representing an estimate of the state of the system,
+a prediction of the next state of the system
+can be generated using the following equations:
+\begin{subequations}
+\label{infotime}
+\begin{align}
+  M & = F^{-T} I_m F^{-1}
+\\
+  C & = M (M + Q^{-1})^{-1}
+\\
+  L & = I - C
+\\
+  I_v & = L F^{-T} I_v
+  & \mbox{\it (predicted State estimate)}
+\label{infotimed}
+\\
+  I_m & = L M L^t + C Q^{-1} C^t
+  & \mbox{\it (predicted Error estimate)}
+\label{infotimel}
+\end{align}
+\end{subequations}
+See \verb|info_time.m|
+for a Matlab implementation.
+The symbols $M$, $C$ and $L$
+are used here as convenient names
+for local scratch storage,
+and have no significance
+outside this specific procedure.

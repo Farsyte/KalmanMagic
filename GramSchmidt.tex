@@ -1,0 +1,94 @@
+\section{Gram-Schmidt Orthogonalization}
+
+This procedure is used to generate a collection
+of vectors that are orthogonal, when weighted by
+a given vector, from an input collection of
+vectors that are assumed to be linearly independent.
+
+More formally stated,
+given a collection of input vectors, $w_+ \dots w_n$,
+each of dimension $N \ge n$,
+and positive scalar weights $d_+ \dots d_N$
+arranged along the diagonal of the matrix $D$,
+generate a related set of vectors, $v_+ \dots v_n$,
+such that $v_i^T D v_j$ is zero whenever $i \ne j$.
+
+The Modified Weighted Gram-Schmidt Orthogonalization
+algorithm generates the results using the following equations,
+using (\ref{mwgson}) to generate the highest numbered result
+then working backward iteratively in decreasing $j$ order
+using (\ref{mwgsoj}):
+\begin{subequations}
+\label{mwgso}
+\begin{align}
+  v_n & = w_n
+\label{mwgson}
+\\
+  v_j &= w_j - \sum_{k = j + 1}^{n}{
+  \left( \frac{w_j^t D v_k}{v_k^t D v_k} \right)
+  v_k
+  }, && j = n-1 \dots 1
+\label{mwgsoj}
+\end{align}
+\end{subequations}
+
+See \verb|mwgso.m| for a Matlab implementation
+of the above backward-recursive Modified Weighted
+Gram-Schmidt Orthogonalization.
+
+This algorithm is useful when we have an equation
+such as (\ref{mwgsomf}) where $W$ has too many columns
+and $D$ is too large, and we want to obtain the $UDU^t$
+factorization:
+\begin{equation}
+W D W^t
+= \left({\bar U} V\right) D \left({\bar U} V\right)^t
+= {\bar U} \left( V D V^t \right) {\bar U}^t
+= {\bar U} {\bar D} {\bar U}^t
+\label{mwgsomf}
+\end{equation}
+where $W$ is $n$ by $N$, $N \ge n$,
+and $D$ is a diagonal matrix with $N$ entries;
+and we require ${\bar U}$ to be unit upper triangular
+of dimension $n$ by $n$,
+and ${\bar D}$ to be diagonal and
+of dimension $n$ by $n$.
+
+Recovery of the value of ${\bar U}$
+such that $W = {\bar U} V$
+and construction of ${\bar D}$
+is simple to insert into the algorithm:
+\begin{subequations}
+\label{mwgso_mf}
+\begin{align}
+  v_k & = w_k
+\label{mwgso_mfi}
+\\
+  {\bar D}_j & = v_j^t D v_j
+\label{mwgso_mfd}
+\\
+  {\bar U}_{kj} & = v_k^t D v_j / {\bar D}_j
+\label{mwgso_mfu}
+\\
+  v_k & = v_k - {\bar U}_{kj} v_j
+\label{mwgso_mfv}
+\end{align}
+\end{subequations}
+Equation (\ref{mwgso_mfi}) is executed once
+at the start for all $k = 1 \dots n$.
+Then we iterate through the remainder of the equations
+for $j = n-1 \dots 1$.
+Equations (\ref{mwgso_mfu}) and (\ref{mwgso_mfv})
+are executed for $k = 1 \dots j-1$
+where the last equation updates $v_k$ in place.
+While this algorithm does not set them,
+we implicitly have ${\bar U}_{ii} = 1$
+and ${\bar U}_{ij} = 0$ when $i>j$
+giving us our desired unit upper triangular ${\bar U}$.
+
+See \verb|mwgso_mf.m| for a Matlab implementation
+of the above backward-recursive Modified Weighted
+Gram-Schmidt Orthogonalization
+producing a Matrix Factorization of the result.
+
+

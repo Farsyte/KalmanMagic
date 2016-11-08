@@ -1,0 +1,20 @@
+#ifndef __FPROTOS_H__
+#define __FPROTOS_H__
+
+/** \file
+ * \brief C Prototypes for Fortan Functions
+ *
+ * This automatically generated file contains
+ * the C function declarations that allow C
+ * code to call the Fortran implementations of
+ * the various functions.
+ *
+ * Edits to this file may disappear unexpectedly
+ * if arrangements are not made to have fprotos.sh
+ * generate the modified version.
+ *
+ * Automatically generated Thu Feb 12 12:30:14 EST 2009
+ * Manually edited Mon Mar  5 13:55:38 PST 2012
+ * Edits folded into fprotos.sh (f2c not available)
+ */
+

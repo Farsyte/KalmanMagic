@@ -1,0 +1,66 @@
+\section{Typographical Conventions}
+
+\subsection{Symbols}
+
+Typically, upper case will refer to matrix quantities;
+vectors and scalars will use lower case.
+A certain level of comfort with Greek letters
+is freely assumed.
+
+\begin{tabular}{cl}
+   {\it Symbol} & {\it Usage}
+\\ $D$          & diagonal factor of error covariance,
+                        $U D U^t = P$
+\\              & ($D$ is also a generic diagonal in support code)
+\\ $F$          & state transition matrix,
+                        $y = F x$
+\\ $H$          & observation coefficients
+\\ $I$          & identity matrix (of size appropriate to context)
+\\ $K$          & Kalman Gain
+\\ $N(\mu,V)$   & Normal distribution with mean $\mu$ and covariance $V$
+\\ $P$          & covariance of error of state estimate
+\\ $Q$          & covariance of process noise
+\\ $Q_d$        & a factor of process noise,
+                        $S_q Q_d S_q^t = Q$
+\\ $R$          & covariance of observation noise
+\\ $S$          & square root of error covariance,
+                        $S S^t = P$
+\\ $S_q$        & a factor of system noise,
+                        $S_r Q_d S_r^t = Q$
+\\ $S_r$        & square root of observation noise,
+                        $S_r S_r^t = R$
+\\ $U$          & unit upper triangular factor of error covariance,
+                        $U D U^t = P$
+\\ $x$          & current system state vector
+\\ $y$          & state vector after a time step
+\\ $z$          & vector of observations
+\\ $I_m$        & information matrix,
+                        elsewhere known as $\Lambda$
+\\ $I_v$        & information vector,
+                        elsewhere known as $\delta$
+\end{tabular}
+
+\subsection{Decorations}
+
+\begin{tabular}{cl}
+   {\it Symbol} & {\it Usage}
+\\ $A^t$        & transpose of $A$
+\\ $A^{-1}$     & inverse of $A$
+\\ $A^{-t}$     & transpose of inverse of $A$
+\\ ${\tilde a}$ & predicted value of $a$
+\\ ${\hat a}$   & filtered value of $a$
+\\ ${\bar a}$   & alternate value of $a$,
+                        often ``normalized''
+\end{tabular}
+
+\subsection{Oddities}
+
+Notation previously used to distinguish
+symbols relating to ``after a time step''
+from those relating to ``at the current time''
+had the tendency to obscure,
+rather than expose.
+The symbol $y$ is now used to represent
+the state of the system after a time step;
+the intent of the few remaining actual ambiguities
+should be clear from context.

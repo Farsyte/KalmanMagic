@@ -1,0 +1,62 @@
+\section{Linear Discrete System Model}
+
+All filters considered in this document
+operate on a linear discrete model
+of the system (plus noise), as expressed
+by these equations:
+\begin{subequations}
+\label{sys}
+\begin{align}
+  z & = H x + N(0,R) & \mbox{\it (observation)}
+\label{sysz}
+\\
+  y & = F x + N(0,Q) & \mbox{\it (process step)}
+\label{sysx}
+\end{align}
+\end{subequations}
+
+Some of the data processing algorithms require
+that the observations are normalized so that
+the sensor noise on each channel is independent,
+gaussian, zero mean and unit variance.
+A system with a general $R$ matrix can be normalized
+by factoring $R = S_r S_r^t$ then inverting $S_r$ and
+generating the normalized $H$ matrix (\ref{sysnormh})
+and $z$ vector (\ref{sysnormz}).
+\begin{subequations}
+\label{sysnorm}
+\begin{align}
+  S_r S_r^t & = R & \mbox{\it (factor R)}
+\\
+  z & = H x + S_r N(0,I) & \mbox{\it (normalize noise)}
+\\
+  {\bar H} & = S_r^{-1} H & \mbox{\it (normalize H)}
+\label{sysnormh}
+\\
+  {\bar z} & = S_r^{-1} z & \mbox{\it (normalize z)}
+\label{sysnormz}
+\end{align}
+\end{subequations}
+
+Some algorithms want to factor the $Q$ matrix
+so that they are dealing with a diagonal matrix $Q_d$
+representing the variances of the minimum set of
+gaussian noise sources,
+and a transfer matrix $S_q$ indicating how the
+noise vector is transformed as it modifies
+the system state, such that $Q = S_q Q_d S_q^t$.
+Frequently, $Q_d$ and $S_q$ are directly constructed
+from the design of the system.
+\begin{subequations}
+\label{sysqdiag}
+\begin{align}
+   S_q Q_d S_q^t & = Q & \mbox{\it (factor Q)}
+\\
+   y & = F x + S_q N(0,Q_d) & \mbox{\it (noise now independent)}
+\label{sysxnorm}
+\end{align}
+\end{subequations}
+
+Inclusion of control effects
+is left as an exercise
+for the implementation.

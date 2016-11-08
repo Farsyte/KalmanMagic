@@ -1,0 +1,58 @@
+\section{Potter's Square Root Covariance filter}
+
+Normal Kalman filters (as described above) work directly with the
+covariance of the data, and the dynamic range in magnitudes involved
+can cause numerical issues. Some of these issues can be addressed by
+instead working directly with a square-root form of the data. Since
+the covariance matrix $P$ is positive-definite, we can calculate another
+matrix $S$ such that $S S^t = P$ (call this the square root matrix).
+Potter's mechanization of the Kalman filter uses the $S$ matrix directly
+as part of the filter state, exhibiting improved numerical properties.
+
+This algorithm operates on one scalar observation at a time, and
+requires using the normalized ${\bar H}$ matrix and ${\bar z}$ vectors
+to eliminate the $R$ matrix as discussed earlier. ${\bar H}_j$ is used
+to refer to the $j$-th row of the normalized coefficient matrix, and
+${\bar z}_j$ refers to the $j$-th entry in the normalized observation vector.
+
+\subsection{Data Processing}
+Given a Potter filter state
+representing an estimate of the state of the system,
+and an observation vector containing additional information
+about the system,
+a refined estimate of the state of the system
+can be generated using the following equations,
+where observations are presented one scalar value at a time,
+with
+${\hat x}$ and ${\hat S}$
+from each iteration
+carrying over as
+${\tilde x}$ and ${\tilde S}$
+for the next iteration:
+\begin{subequations}
+\label{potterdata}
+\begin{align}
+\nu & = {\bar H}_j {\tilde S}
+\\
+\sigma & = 1 / ( \nu \nu^t + 1 )
+\\
+K & = {\tilde S} \nu^t
+  & \mbox{\it (unweighted Kalman Gain)}
+\\
+{\hat x} & = {\tilde x} +
+    \sigma \left( {\bar z}_j - {\bar H}_j {\tilde x} \right) K
+  & \mbox{\it (improved State estimate)}
+\label{potterdatax}
+\\
+{\hat S} & = {\tilde S} - \frac{\sigma}{1 + \sqrt{\sigma}} K \nu
+  & \mbox{\it (improved Error estimate)}
+\label{potterdatas}
+\end{align}
+\end{subequations}
+See \verb|potter_data_c.c|, \verb|potter_data_f.f| and \verb|potter_data.m|
+for example implementations.
+The symbols $\nu$ and $\sigma$
+are used here as convenient names
+for local scratch storage,
+and have no significance
+outside this specific procedure.

@@ -1,0 +1,53 @@
+\section{Kalman Filter Basics}
+
+Standard Kalman Filters maintain an estimate $x$ of the state of the
+system, and a matrix $P$ containing the covariance of the error of that
+estimate. $P=0$ would represent absolute certainty that $x$ was the exact
+state of the system. When even one element of the state is completely
+unknown, infinite (or IEEE \verb|NaN|) values appear in $P$.
+
+\subsection{Refinement}
+Given a Kalman filter state
+representing an estimate of the state of the system,
+and an observation vector containing additional information
+about the system,
+a refined estimate of the state of the system
+can be generated using the following equations:
+\begin{subequations}
+\label{kalmandata}
+\begin{align}
+  K & = {\tilde P} H^t (H {\tilde P} H^t + R)^{-1}
+  & \mbox{\it (Kalman Gain)}
+\label{kalmandatak}
+\\
+  {\hat x} & = {\tilde x} + K \left( z - H {\tilde x} \right)
+  & \mbox{\it (improved State Estimate)}
+\label{kalmandatax}
+\\
+  {\hat P} & = {\tilde P} - K H {\tilde P}
+  & \mbox{\it (improved Error Estimate)}
+\label{kalmandatap}
+\end{align}
+\end{subequations}
+See \verb|kalman_data.m|
+for a Matlab implementation.
+
+\subsection{Prediction}
+Given a Kalman filter state
+representing an estimate of the state of the system,
+a prediction of the next state of the system
+can be generated using the following equations:
+\begin{subequations}
+\label{kalmantime}
+\begin{align}
+  {\tilde x} & = F {\hat x}
+  & \mbox{\it (predicted State Estimate)}
+\label{kalmantimex}
+\\
+  {\tilde P} & = F {\hat P} F^t + Q
+  & \mbox{\it (predicted Error Estimate)}
+\label{kalmantimep}
+\end{align}
+\end{subequations}
+See \verb|kalman_time.m|
+for a Matlab implementation.

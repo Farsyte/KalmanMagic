@@ -1,0 +1,56 @@
+Using Fortran compiled with gfortran --std=f95:
+
+
+>> test_all
+ 
+checking precision of worker functions
+ 
+hh_tri                                   1.0646e-29 ssqe pass
+hh_tri_quad                              9.4547e-30 ssqe pass
+hh_tri_hex                               1.5120e-28 ssqe pass
+udut_fact                                3.9260e-30 ssqe pass
+udut_caat                                3.3871e-29 ssqe pass
+mwgso                                    7.0872e-30 ssqe pass
+mwgso_mf                                 1.0798e-29 ssqe pass
+ 
+hh_tri_mex                               4.0935e-30 ssqe pass
+hh_tri_quad_mex                          1.6053e-29 ssqe pass
+hh_tri_hex                               9.8473e-29 ssqe pass
+udut_fact_mex                            6.4835e-30 ssqe pass
+ 
+comparing data processing functions
+ 
+info_data                                2.4065e-14 pass
+potter_data                              2.3919e-14 pass
+potter_data_mex                          2.3919e-14 pass
+udut_data_mex                            2.3919e-14 pass
+srif_read                                2.3919e-14 pass
+srif_data_mex                            2.3919e-14 pass
+srif_read_mex                            2.3919e-14 pass
+ 
+comparing system update functions
+ 
+info_time                                3.1999e-17 pass
+srif_time                                3.1999e-17 pass
+srif_time_mex                            3.1999e-17 pass
+udut_time_mex                            3.1999e-17 pass
+
+establishing data procesing runtime
+
+kalman_data                       0.032722 s/rep,           32.722 us/iter
+info_data                         0.018965 s/rep,           18.965 us/iter
+potter_data                       0.112121 s/rep,          112.121 us/iter
+potter_data_mex                   0.007749 s/rep,            7.749 us/iter
+udut_data_mex                     0.011715 s/rep,           11.715 us/iter
+srif_data                         0.619694 s/rep,          619.694 us/iter
+srif_data_mex                     0.008821 s/rep,            8.822 us/iter
+srif_read                         0.022719 s/rep,           22.719 us/iter
+srif_read_mex                     0.018480 s/rep,           18.480 us/iter
+
+establishing time processing runtime
+
+kalman_time                       0.045831 s/rep,           45.831 us/iter
+info_time                         0.062978 s/rep,           62.978 us/iter
+udut_time_mex                     0.027054 s/rep,           27.053 us/iter
+srif_time                         2.508613 s/rep,         2508.613 us/iter
+srif_time_mex                     0.039849 s/rep,           39.849 us/iter

@@ -1,0 +1,57 @@
+Using the C implementation compiled with gcc --std=c89:
+
+>> test all
+ 
+checking precision of worker functions
+ 
+hh_tri                                   1.0646e-29 ssqe pass
+hh_tri_quad                              9.4547e-30 ssqe pass
+hh_tri_hex                               1.5120e-28 ssqe pass
+udut_fact                                3.9260e-30 ssqe pass
+udut_caat                                3.3871e-29 ssqe pass
+mwgso                                    7.0872e-30 ssqe pass
+mwgso_mf                                 1.0798e-29 ssqe pass
+ 
+hh_tri_mex                               4.0935e-30 ssqe pass
+hh_tri_quad_mex                          1.6053e-29 ssqe pass
+hh_tri_hex                               9.8473e-29 ssqe pass
+udut_fact_mex                            6.4835e-30 ssqe pass
+ 
+comparing data processing functions
+ 
+info_data                                2.4065e-14 pass
+potter_data                              2.3919e-14 pass
+potter_data_mex                          2.3919e-14 pass
+udut_data_mex                            2.3919e-14 pass
+srif_read                                2.3919e-14 pass
+srif_data_mex                            2.3919e-14 pass
+srif_read_mex                            2.3919e-14 pass
+ 
+comparing system update functions
+ 
+info_time                                3.1999e-17 pass
+srif_time                                3.1999e-17 pass
+srif_time_mex                            3.1999e-17 pass
+udut_time_mex                            3.1999e-17 pass
+
+establishing data procesing runtime
+
+kalman_data                       0.033769 s/rep,           33.769 us/iter
+info_data                         0.019350 s/rep,           19.350 us/iter
+potter_data                       0.112933 s/rep,          112.933 us/iter
+potter_data_mex                   0.007928 s/rep,            7.928 us/iter
+udut_data_mex                     0.012014 s/rep,           12.014 us/iter
+srif_data                         0.617526 s/rep,          617.526 us/iter
+srif_data_mex                     0.008928 s/rep,            8.928 us/iter
+srif_read                         0.022935 s/rep,           22.935 us/iter
+srif_read_mex                     0.018827 s/rep,           18.827 us/iter
+
+establishing time processing runtime
+
+kalman_time                       0.047114 s/rep,           47.114 us/iter
+info_time                         0.064254 s/rep,           64.254 us/iter
+udut_time_mex                     0.026926 s/rep,           26.926 us/iter
+srif_time                         2.510092 s/rep,         2510.092 us/iter
+srif_time_mex                     0.039310 s/rep,           39.310 us/iter
+
+>>
